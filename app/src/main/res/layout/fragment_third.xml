@@ -1,0 +1,26 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="Fragments.FirstFragment">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="@color/purple_500"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView android:layout_height="100dp"
+        android:layout_width="100dp"
+        android:layout_marginTop="200dp"
+        android:layout_marginStart="200dp"
+        android:text="HALLOO"
+        android:textSize="25sp"/>
+</FrameLayout>

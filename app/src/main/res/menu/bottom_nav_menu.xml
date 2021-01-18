@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/notes"
+        android:icon="@drawable/ic_baseline_list_alt_24"
+        android:title="Notes"
+        android:enabled="true"
+        />
+    <item
+        android:id="@+id/photos"
+        android:icon="@drawable/ic_baseline_image_24"
+        android:title="Photos"
+        android:enabled="true"
+        />
+    <item
+        android:id="@+id/profile"
+        android:icon="@drawable/ic_baseline_person_24"
+        android:title="Profile"
+        android:enabled="true"
+        />
+</menu>
