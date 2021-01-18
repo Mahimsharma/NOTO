@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ass3.R;
@@ -34,6 +35,9 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.single_image_card,parent,false);
+        GridLayoutManager.LayoutParams lp = (GridLayoutManager.LayoutParams) view.getLayoutParams();
+        lp.height = parent.getMeasuredHeight() / FragmentPhotos.layoutSpan;
+        view.setLayoutParams(lp);
         parentContext = parent.getContext();
         return new ViewHolder(view);
     }
@@ -50,9 +54,10 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         this.imageList =  imageList;
         notifyDataSetChanged();
     }
-    public void addCards(List<ImageEntity> imageList){
-        this.imageList =  imageList;
-        notifyDataSetChanged();
+    public void addCards(List<ImageEntity> images){
+        int temp = imageList.size();
+        imageList.addAll(images);
+        notifyItemRangeInserted(temp,images.size());
     }
     // total number of cells
     @Override

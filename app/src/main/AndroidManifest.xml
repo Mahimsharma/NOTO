@@ -25,6 +25,8 @@
             android:windowSoftInputMode="adjustNothing"
             android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
         </activity>
+        <activity android:name=".PhotoViewer"
+            android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

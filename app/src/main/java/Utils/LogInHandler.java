@@ -35,7 +35,7 @@ public class LogInHandler {
 
     }
     public void setLayoutSpan(int option){
-        sharedPreferences.edit().putInt("option",option);
+        sharedPreferences.edit().putInt("option",option).apply();
     }
      public int getLayoutSpan()
      {

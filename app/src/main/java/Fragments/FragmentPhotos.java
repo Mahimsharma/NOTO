@@ -1,5 +1,6 @@
 package Fragments;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.ass3.PhotoViewer;
 import com.example.ass3.R;
 
 import org.jetbrains.annotations.NotNull;
@@ -54,7 +56,7 @@ public class FragmentPhotos extends Fragment {
     private ImageAdapter adapter;
     private RequestQueue requestQueue;
     private RecyclerView recyclerView;
-    private int layoutSpan = 1;
+    public static int layoutSpan;
     private String currentQuery;
     private int currentPage;
     private  String per_page="20";
@@ -70,6 +72,7 @@ public class FragmentPhotos extends Fragment {
         currentQuery = "random";
         logInHandler = LogInHandler.getInstance(getContext());
         layoutSpan = logInHandler.getLayoutSpan();
+
     }
 
     @Override
@@ -97,6 +100,7 @@ public class FragmentPhotos extends Fragment {
         else{
         searchFlickr(currentQuery);
         }
+
         recyclerView.setOnScrollChangeListener(new View.OnScrollChangeListener() {
             @Override
             public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -132,12 +136,20 @@ public class FragmentPhotos extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+
+        layoutSpan = logInHandler.getLayoutSpan();
+        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),layoutSpan));
+        recyclerView.setAdapter(adapter);
+        super.onResume();
+    }
 
     private void searchFlickr(String tag)
     {
         if(tag.equals(currentQuery)) currentPage++;
         else{
-            currentQuery=tag;
+            currentQuery = tag;
             currentPage = 1;
         }
 
@@ -165,8 +177,9 @@ public class FragmentPhotos extends Fragment {
                         progressBar.setVisibility(View.GONE);
                         imageDao.insert(imageList);
                         if(currentPage==1)
-                        {adapter = new ImageAdapter(FragmentPhotos.this,imageList);
-                        recyclerView.setAdapter(adapter);}
+                        { adapter = new ImageAdapter(FragmentPhotos.this,imageList);
+                            recyclerView.setAdapter(adapter);
+                        }
                         else{
                             adapter.addCards(imageList);
                         }
@@ -188,13 +201,7 @@ public class FragmentPhotos extends Fragment {
                 requestQueue.add(request);
     }
 
-    public void click()
-    {
-       Bundle bundle = new Bundle();
-       bundle.putSerializable("imageList", (Serializable) imageList);
-       FragmentPhotoViewer fragmentPhotoViewer = new FragmentPhotoViewer(bundle);
-       getParentFragmentManager().beginTransaction().replace(R.id.fragment_container_view_tag_2,fragmentPhotoViewer,null).commit();
-    }
+
 
     @Override
     public void onCreateOptionsMenu(@NotNull Menu menu, MenuInflater inflater) {
@@ -220,9 +227,16 @@ public class FragmentPhotos extends Fragment {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                searchFlickr(query);
+                if(NetworkUtility.getConnectivityStatus(getContext()) != 0)
+                {
+                    searchFlickr(query);
                 Toast.makeText(getActivity(),"Searching for "+ query,Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(getContext(),"No Connection!",Toast.LENGTH_SHORT).show();
+
+                }
                 if( ! searchView.isIconified()) {
                     searchView.setIconified(true);
                 }
@@ -257,9 +271,21 @@ public class FragmentPhotos extends Fragment {
                 break;
 
         }
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(),layoutSpan));
+        logInHandler.setLayoutSpan(layoutSpan);
+        onResume();
         return true;
 
+    }
+
+    public void click()
+    {
+        Intent intent = new Intent(getActivity(), PhotoViewer.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("imageList", (Serializable) imageList);
+        intent.putExtras(bundle);
+        startActivity(intent);
+//       FragmentPhotoViewer fragmentPhotoViewer = new FragmentPhotoViewer(bundle);
+//       getParentFragmentManager().beginTransaction().replace(R.id.fragment_container_view_tag_2,fragmentPhotoViewer,null).commit();
     }
 
 
