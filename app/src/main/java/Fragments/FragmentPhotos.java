@@ -144,10 +144,10 @@ public class FragmentPhotos extends Fragment {
         recyclerView.setAdapter(adapter);
         super.onResume();
     }
-
     private void searchFlickr(String tag)
     {
-        if(tag.equals(currentQuery)) currentPage++;
+        if(tag.equals(currentQuery)) {
+            currentPage++;}
         else{
             currentQuery = tag;
             currentPage = 1;
@@ -277,13 +277,9 @@ public class FragmentPhotos extends Fragment {
 
     }
 
-    public void click()
+    public void click(int adapter)
     {
-        Intent intent = new Intent(getActivity(), PhotoViewer.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("imageList", (Serializable) imageList);
-        intent.putExtras(bundle);
-        startActivity(intent);
+
 //       FragmentPhotoViewer fragmentPhotoViewer = new FragmentPhotoViewer(bundle);
 //       getParentFragmentManager().beginTransaction().replace(R.id.fragment_container_view_tag_2,fragmentPhotoViewer,null).commit();
     }

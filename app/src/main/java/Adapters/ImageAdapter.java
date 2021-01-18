@@ -1,6 +1,10 @@
 package Adapters;
 
 import android.content.Context;
+import android.content.Entity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +14,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.ass3.PhotoViewer;
 import com.example.ass3.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import Fragments.FragmentPhotos;
@@ -55,9 +62,8 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
     public void addCards(List<ImageEntity> images){
-        int temp = imageList.size();
         imageList.addAll(images);
-        notifyItemRangeInserted(temp,images.size());
+        notifyItemRangeChanged(0,imageList.size());
     }
     // total number of cells
     @Override
@@ -70,6 +76,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView imageView;
+
         ViewHolder(View itemView) {
             super(itemView);
             imageView = itemView.findViewById(R.id.imageView);
@@ -78,12 +85,19 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
                 @Override
                 public void onClick(View v) {
                     //Toast.makeText(parentContext,"Clicked"+String.valueOf(getAdapterPosition()),Toast.LENGTH_SHORT).show();
-                    fragmentPhotos.click();
+                    //fragmentPhotos.click(getAdapterPosition());
+                    Intent intent = new Intent(parentContext, PhotoViewer.class);
+                    Bundle bundle = new Bundle();
+                    int start = getAdapterPosition();
+                    List<ImageEntity> temp = new ArrayList<ImageEntity>(imageList.subList(start,start+1));
+                    bundle.putSerializable("imageList", (Serializable) temp);
+                    intent.putExtras(bundle);
+                    parentContext.startActivity(intent);
+
                 }
             });
         }
     }
-
 
 
     // allows clicks events to be caught

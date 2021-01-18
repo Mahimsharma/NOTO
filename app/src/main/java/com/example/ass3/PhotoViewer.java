@@ -6,6 +6,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Adapters.PhotoViewerAdapter;
@@ -20,9 +21,10 @@ public class PhotoViewer extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_photo_viewer);
+        imageList = new ArrayList<>();
         getSupportActionBar().setTitle("PhotoViewer");
         Bundle bundle = getIntent().getExtras();
-        imageList =  (List<ImageEntity>)bundle.getSerializable("imageList");
+        imageList=(List<ImageEntity>)bundle.getSerializable("imageList");
         viewPager = findViewById(R.id.viewPager2);
         adapter = new PhotoViewerAdapter();
         adapter.setCards(imageList);
