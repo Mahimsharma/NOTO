@@ -1,9 +1,7 @@
 package Fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -11,15 +9,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.ass3.R;
+import com.example.Assignment3.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.io.Serializable;
@@ -78,7 +73,7 @@ public class FragmentNotes extends Fragment {
     public void addCard()
     {
         FragmentCardView fragmentCardView = new FragmentCardView(new Bundle());
-        getParentFragmentManager().beginTransaction().replace(R.id.fragment_container_view_tag,fragmentCardView,null).commit();
+        getParentFragmentManager().beginTransaction().replace(R.id.containerId,fragmentCardView,null).commit();
 
     }
     public void editCard(int position) {
@@ -87,7 +82,7 @@ public class FragmentNotes extends Fragment {
                 bundle.putSerializable("card", (Serializable) cardList.get(position));
                 bundle.putInt("position",position);
                 FragmentCardView fragmentCardView = new FragmentCardView(bundle);
-                getParentFragmentManager().beginTransaction().replace(R.id.fragment_container_view_tag,fragmentCardView,null).commit();
+                getParentFragmentManager().beginTransaction().replace(R.id.containerId,fragmentCardView,null).commit();
     }
 
 

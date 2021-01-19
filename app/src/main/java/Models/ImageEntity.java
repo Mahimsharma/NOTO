@@ -15,7 +15,7 @@ public class ImageEntity implements Serializable {
     private String imageUrl;
     private String imageTitle;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -44,6 +44,5 @@ public class ImageEntity implements Serializable {
     public void setImageTitle(String imageTitle) {
         this.imageTitle = imageTitle;
     }
-
 
 }

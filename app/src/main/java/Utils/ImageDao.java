@@ -3,6 +3,7 @@ package Utils;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -15,16 +16,15 @@ public interface ImageDao {
 
     @Query("select * from imageentity")
     List<ImageEntity> getAll();
-
-
     /*
      * Insert the object in database
      * @param note, object to be inserted
      */
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ImageEntity imageCache);
 
-    @Insert
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(List<ImageEntity> imageCache);
 
     /*

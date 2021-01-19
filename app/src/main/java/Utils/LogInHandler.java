@@ -14,9 +14,12 @@ public class LogInHandler {
     SharedPreferences sharedPreferences;
 
 
-    public static synchronized LogInHandler getInstance(Context context) {
+    public static LogInHandler getInstance(Context context) {
         if (logIn_instance == null) {
-            logIn_instance = new LogInHandler(context.getApplicationContext());
+            synchronized (LogInHandler.class){
+                if(logIn_instance == null)
+                    logIn_instance = new LogInHandler(context.getApplicationContext());
+            }
         }
         return logIn_instance;
     }

@@ -1,4 +1,4 @@
-package com.example.ass3;
+package com.example.Assignment3;
 
 import android.content.Intent;
 import android.os.Bundle;

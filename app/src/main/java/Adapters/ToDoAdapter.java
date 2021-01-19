@@ -8,11 +8,10 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.ass3.R;
+import com.example.Assignment3.R;
 
 import java.util.List;
 
-import Fragments.FirstFragment;
 import Fragments.FragmentNotes;
 import Models.NotesEntity;
 

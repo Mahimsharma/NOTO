@@ -1,30 +1,21 @@
-package com.example.ass3;
+package com.example.Assignment3;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Window;
-import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.tabs.TabLayout;
-import com.google.android.material.tabs.TabLayoutMediator;
 
-import Adapters.ViewPagerFragmentAdapter;
-import Fragments.FirstFragment;
-import Fragments.SecondFragment;
+import Fragments.FragmentNotes;
+import Fragments.FragmentPhotos;
 import Fragments.ThirdFragment;
 
 public class MainActivity extends AppCompatActivity {
-    private ViewPager2 viewPager;
-    private ViewPagerFragmentAdapter adapter;
     public static String[] titles = new String[]{"Notes", "Photos", "Profile"};
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,32 +24,25 @@ public class MainActivity extends AppCompatActivity {
         Window window = MainActivity.this.getWindow();
         window.setStatusBarColor(ContextCompat.getColor(this,R.color.purple_700));
         BottomNavigationView bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomNav);
-        setFragment(new FirstFragment());
+        setFragment(new FragmentNotes());
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()) {
                     case R.id.notes:
-                        setFragment(new FirstFragment());
+                        setFragment(new FragmentNotes());
                         break;
                     case R.id.photos:
-                        setFragment(new SecondFragment());
+                        setFragment(new FragmentPhotos());
                         break;
                     case R.id.profile:
                         setFragment(new ThirdFragment());
                         break;
-                    default:
-                        setFragment(new FirstFragment());
+
                 }
                 return true;
             }
         });
-
-
-
-
-
-
 //        viewPager = findViewById(R.id.view_pager);
 //        viewPager.setUserInputEnabled(false);
 //        adapter = new ViewPagerFragmentAdapter(this);

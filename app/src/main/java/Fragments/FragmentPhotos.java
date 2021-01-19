@@ -1,7 +1,5 @@
 package Fragments;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -20,7 +18,6 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,17 +25,13 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.ass3.PhotoViewer;
-import com.example.ass3.R;
+import com.example.Assignment3.R;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import Adapters.ImageAdapter;
@@ -52,7 +45,6 @@ public class FragmentPhotos extends Fragment {
 
     private ActionBar actionBar;
     private List<ImageEntity> imageList;
-    private ViewPager2 viewPager;
     private ImageAdapter adapter;
     private RequestQueue requestQueue;
     private RecyclerView recyclerView;
@@ -86,7 +78,6 @@ public class FragmentPhotos extends Fragment {
         setHasOptionsMenu(true);
 
         progressBar = v.findViewById(R.id.progressBar);
-        adapter = new ImageAdapter(this,imageList);
         recyclerView = v.findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), layoutSpan));
         requestQueue = Volley.newRequestQueue(getContext());
@@ -94,7 +85,7 @@ public class FragmentPhotos extends Fragment {
         {
             Toast.makeText(getContext(),"No Connection!",Toast.LENGTH_SHORT).show();
             progressBar.setVisibility(View.GONE);
-            adapter = new ImageAdapter(this,imageList);
+            adapter = new ImageAdapter(getContext(),imageList);
             recyclerView.setAdapter(adapter);
         }
         else{
@@ -144,6 +135,7 @@ public class FragmentPhotos extends Fragment {
         recyclerView.setAdapter(adapter);
         super.onResume();
     }
+
     private void searchFlickr(String tag)
     {
         if(tag.equals(currentQuery)) {
@@ -151,10 +143,9 @@ public class FragmentPhotos extends Fragment {
         else{
             currentQuery = tag;
             currentPage = 1;
-        }
-
             imageDao.delete();
             imageList.clear();
+        }
 
         String url = "https://www.flickr.com/services/rest/?method=flickr.photos.search&api_key=e44c5252a0f90974cff57177110fdc32&tags="+tag+"&per_page="+per_page+"&page="+String.valueOf(currentPage)+"&format=json&nojsoncallback=1";
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
@@ -177,7 +168,8 @@ public class FragmentPhotos extends Fragment {
                         progressBar.setVisibility(View.GONE);
                         imageDao.insert(imageList);
                         if(currentPage==1)
-                        { adapter = new ImageAdapter(FragmentPhotos.this,imageList);
+                        {
+                            adapter = new ImageAdapter(getContext(),imageList);
                             recyclerView.setAdapter(adapter);
                         }
                         else{
@@ -245,7 +237,6 @@ public class FragmentPhotos extends Fragment {
             }
             @Override
             public boolean onQueryTextChange(String s) {
-                // UserFeedback.show( "SearchOnQueryTextChanged: " + s);
                 return false;
             }
         });
@@ -269,20 +260,11 @@ public class FragmentPhotos extends Fragment {
                 break;
             default:
                 break;
-
         }
         logInHandler.setLayoutSpan(layoutSpan);
         onResume();
         return true;
 
     }
-
-    public void click(int adapter)
-    {
-
-//       FragmentPhotoViewer fragmentPhotoViewer = new FragmentPhotoViewer(bundle);
-//       getParentFragmentManager().beginTransaction().replace(R.id.fragment_container_view_tag_2,fragmentPhotoViewer,null).commit();
-    }
-
 
 }

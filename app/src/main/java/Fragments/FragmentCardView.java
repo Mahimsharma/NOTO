@@ -17,7 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.ass3.R;
+import com.example.Assignment3.R;
 
 import Models.NotesEntity;
 import Utils.NoteDao;
@@ -113,7 +113,7 @@ public class FragmentCardView extends Fragment {
     public void onUpAction()
     {
         FragmentNotes fragmentNotes = new FragmentNotes();
-        getParentFragmentManager().beginTransaction().replace(R.id.fragment_container_view_tag,fragmentNotes,null).commit();
+        getParentFragmentManager().beginTransaction().replace(R.id.containerId,fragmentNotes,null).commit();
     }
 
     public void buttonClick(View v) {
